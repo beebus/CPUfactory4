@@ -1,0 +1,29 @@
+language:       cpp
+
+matrix:
+  include:
+    # / Linux Clang
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          packages: 
+
+            - freeglut3-dev 
+            - libxi-dev
+            - libxmu-dev
+
+    - os: osx
+      osx-image: xcode9.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - freeglut
+
+before_install:
+  - make deps
+  - pip install --user cpp-coveralls
+
+script:
+  - make build
