@@ -8,7 +8,6 @@ matrix:
       addons:
         apt:
           packages: 
-
             - freeglut3-dev 
             - libxi-dev
             - libxmu-dev
@@ -22,7 +21,11 @@ matrix:
             - freeglut
 
 before_install:
-  - make deps
+  - makedir deps
+  - git clone https://github.com/libglui/glui deps/glui
+  - cd deps && make
+  - sudo cp deps/glui/lib/libglui.a /usr/local/lib
+  - sudp cp deps/glui/include/glui.h /usr/local/include
   - pip install --user cpp-coveralls
 
 script:
