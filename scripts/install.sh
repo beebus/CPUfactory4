@@ -7,6 +7,6 @@ if [ ! -d "deps/glui" ]; then
 fi
 cd deps/glui
 make
-cp lib/libglui.a /usr/local/lib
-cp include/GL/glui.h /usr/local/include
+sudo cp lib/libglui.a /usr/local/lib
+sudo cp include/GL/glui.h /usr/local/include
 

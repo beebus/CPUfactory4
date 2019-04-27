@@ -1,4 +1,4 @@
-CPUfactory (v0.0.40)
+CPUfactory (v0.0.42)
 ####################
 :Course: COC2325 - Computer Architecture and Machine Language
 :School: Austin Community College
@@ -55,6 +55,8 @@ Dependencies
 
 ..  |quality|  image:: https://api.codacy.com/project/badge/Grade/07f811e8d0d14693b766887520b53a69
     :target: https://www.codacy.com/app/rblack42/CPUfactory3?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rblack42/CPUfactory3&amp;utm_campaign=Badge_Grade
+
+
 
 
 
