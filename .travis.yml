@@ -24,7 +24,7 @@ before_install:
   - rm -rf deps
   - mkdir deps
   - git clone https://github.com/libglui/glui deps/glui
-  - cd deps && make
+  - cd deps/glui && make
   - sudo cp deps/glui/lib/libglui.a /usr/local/lib
   - sudp cp deps/glui/include/glui.h /usr/local/include
   - pip install --user cpp-coveralls
