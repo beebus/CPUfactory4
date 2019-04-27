@@ -21,6 +21,7 @@ matrix:
             - freeglut
 
 before_install:
+  - rm -rf deps
   - mkdir deps
   - git clone https://github.com/libglui/glui deps/glui
   - cd deps && make
