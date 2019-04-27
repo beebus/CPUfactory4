@@ -28,7 +28,7 @@ before_install:
   - make
   - sudo cp lib/libglui.a /usr/local/lib
   - sudo cp include/GL/glui.h /usr/local/include
-  - cd ..
+  - cd ../..
   - pip install --user cpp-coveralls
 
 script:
