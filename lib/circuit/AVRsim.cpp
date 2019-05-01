@@ -34,6 +34,49 @@ uint16_t AVRsim::tick(uint16_t c) {
     return ++pc;
 }
 
+void AVRsim::fetch(void) {
+    std::cout << "Fetch" << std::endl;
+    uCode * ucode = find_ucode("Fetch");
+    if (ucode) {
+        for (int i=0; i < ucode->uops.size(); i++) {
+            uOp * uops = ucode->uops[i];
+            std::cout 
+                << "\t" 
+                << uops->part->get_name()
+                << "("
+                << uops->ctrl
+                << ")" 
+                << std::endl;
+        }
+    }
+}
+
+void AVRsim::decode(void) {
+    std::cout << "decode" << std::endl;
+    uCode * ucode = find_ucode("Decode");
+    if (ucode) {
+        for (int i=0; i < ucode->uops.size(); i++) {
+            uOp * uops = ucode->uops[i];
+            std::cout 
+                << "\t" 
+                << uops->part->get_name()
+                << "("
+                << uops->ctrl
+                << ")" 
+                << std::endl;
+        }
+    }
+
+}
+
+void AVRsim::execute(void) {
+    std::cout << "execute" << std::endl;
+}
+
+void AVRsim::store(void) {
+    std::cout << "store" << std::endl;
+}
+
 Component * AVRsim::find_part(std::string part) {
         for (int i = 0; i < parts.size(); i++) {
             std::string tname = parts[i]->get_name();
@@ -266,4 +309,12 @@ uint16_t AVRsim::get_signal_by_name(std::string n) {
     else return 0;
 }
 
-
+uCode * AVRsim::find_ucode(std::string name) {
+    for (int i=0; i < ucodes.size(); i++) {
+        uCode * ucode = ucodes[i];
+        if (ucode->name == name) {
+            return ucode;
+        }
+    }
+    return nullptr;
+}

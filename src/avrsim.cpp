@@ -51,11 +51,18 @@ AVRsim * sim;
 // control routine called when we click the mouse on a control
 void control_cb(int control) {
     if (control == PC_INCREMENT) {
-        //sim->tick(_pc);
-        _pc = sim->get_signal_by_name("pc");
+        int stage = _pc % 4;
+        switch (stage) {
+            case 0: sim->fetch(); break;
+            case 1: sim->decode(); break;
+            case 2: sim->execute(); break;
+            case 3: sim->store(); break;
+        }
+        _pc = sim->tick(_pc);
+        // fetch signals
         _ins1 = sim->get_signal_by_name("ins1");
         _ins2 = sim->get_signal_by_name("ins2");
-        _ins2 = sim->get_signal_by_name("ins2");
+        // decode signals
         _pcn = sim->get_signal_by_name("pcn");
         _rd = sim->get_signal_by_name("rd");
         _rs = sim->get_signal_by_name("rs");

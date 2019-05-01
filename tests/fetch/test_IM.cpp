@@ -17,9 +17,8 @@ TEST_CASE( "test_IM operation", "fetch") {
     REQUIRE(outpin1 != nullptr);
     Pin * outpin2 = im.get_out_pin("INS2");
     REQUIRE(outpin2 != nullptr);
-    inpin->set_val(1);
+    inpin->set_val(0);
+    im.load("data/test_data.hex");
     im.tick(0);
-    REQUIRE(outpin1->get_val() == 0);
-    im.tick(0);
-    REQUIRE(outpin1->get_val() == 1);
+    REQUIRE(outpin1->get_val() == 0xcfff);
 }
