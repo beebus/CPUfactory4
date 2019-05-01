@@ -1,0 +1,228 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cpushapes}
+\RequirePackage{tikz}
+
+% junction point
+\newcommand{\jct}[1]{ % {coord}a
+  \begin{scope}[shift={(#1)}]
+	  \draw [fill=black](0,0) circle [radius=2pt];
+  \end{scope}
+}
+
+% pin ------------------------------------------------
+\newcommand{\pin}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \draw [fill=#2!30] 
+      (0.000000,0.000000) 
+      -- (0.250000,0.000000) 
+      -- (0.250000,0.250000) 
+      -- (0.000000,0.250000) 
+      -- cycle;
+    \node at (0.125,0.125) {\tiny{#3}};
+  \end{scope}
+}
+% ctrl -------------------------------------------------
+\newcommand{\ctrl}[3]{% {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \draw [fill=#2!30] 
+      (0.000000,0.000000)  
+      -- (0.250000,0.000000) 
+      -- (0.250000,0.50000) 
+      -- (0.000000,0.50000) 
+      -- cycle;
+    \node at (0.125,0.375) {\tiny{#3}};
+  \end{scope}
+}
+% muxa 2 - input -----------------------------------------
+\newcommand{\muxa}[3]{
+  \begin{scope}[shift={(#1)}]
+    \draw[fill=#2!30] (0,0) -- (1,0.5) -- (1,1.5) -- (0,2.0) -- cycle;
+    \node at (0.5,1.0) {#3};
+    \pin{-0.25,0.375}{blue}{2}
+    \pin{-0.25,1.375}{blue}{1}
+    \pin{1.0,0.875}{yellow}{3}
+  \end{scope}
+}
+% muxb 3 - input -----------------------------------------
+\newcommand{\muxb}[3]{
+  \begin{scope}[shift={(#1)}]
+    \draw[fill=#2!30] 
+	  (0,0) 
+	  -- (1,0.5) 
+	  -- (1,2.5) -- (0,3.0) -- cycle;
+    \node at (0.5,2.0) {#3};
+    \pin{-0.25,0.375}{blue}{3}
+    \pin{-0.25,1.375}{blue}{2}
+    \pin{-0.25,2.375}{blue}{1}
+    \pin{1.0,1.375}{yellow}{4}
+  \end{scope}
+}
+% mux3 3 input (right facing) ----------------------------
+\newcommand{\muxc}[3]{
+  \begin{scope}[shift={(#1)}]
+    \draw[fill=#2!30] 
+	  (0,0.5) 
+	  -- (1,0) 
+	  -- (1,3) -- (0,2.5) -- cycle;
+    \node at (0.5,1.5) {#3};
+    \pin{1,0.375}{blue}{3}
+    \pin{1,1.375}{blue}{2}
+    \pin{-0.25,1.375}{yellow}{4}
+    \pin{1.0,2.375}{blue}{1}
+  \end{scope}
+}
+
+% alu ----------------------------------------------------
+\newcommand{\alu}[3]{%alu
+   \begin{scope}[shift={(#1)}]
+      % inputs
+      \pin{-0.25,0.675}{yellow}{2}% input1
+      \pin{-0.25,3.125}{yellow}{1}% input2
+      % outputs
+      \pin{2,2.375}{blue}{4}% res-16
+	   \node at (2.625,2.625) {\tiny{res16}};
+      \pin{2,1.375}{blue}{3}% res-8t
+      \ctrl{0.875,3.375}{red}{op}% alu opcode
+      \draw[fill=#2!30] 
+        (0,0) 
+        -- (2,1) 
+        -- (2,3) 
+        -- (0,4) 
+        -- (0,2.5) 
+        -- (1,2) 
+        -- (0,1.5) 
+        -- cycle;
+      \node at (1.5,2) {#3};
+   \end{scope}
+}
+
+% decoder ------------------------------------------------
+\newcommand{\dec}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,6.125}{blue}{1};		% PC+1
+    \pin{-0.25,3.875}{blue}{2};        % Rd
+    \pin{-0.25,2.875}{blue}{3};  % Rr
+    \pin{0.375,-0.25}{blue}{4};
+    \pin{1.00,0.375}{yellow}{5}; % A
+	  \node at (1.5,0.625) {\tiny{A}};
+    \pin{1.00,0.875}{yellow}{6}; % k
+	  \node at (1.5,1.125) {\tiny{k}};
+    \pin{1.00,2.875}{yellow}{7};
+	  \node at (1.5,3.125) {\tiny{Rd}};
+    \pin{1.00,3.875}{yellow}{8};
+	  \node at (1.5,4.125) {\tiny{Rr}};
+    \pin{1.00,6.125}{yellow}{9};
+	  \node at (1.625,6.125) {\tiny{PC{$$+1$$}}};
+    \pin{1.00,7.125}{yellow}{10};
+	  \node at (1.5,7.375) {\tiny{Aop}};
+    \draw [fill=#2!30]
+      (0.0,0.0) 
+      -- (1.0,0.0) 
+      -- (1.0,8.0) 
+      -- (0.0,8.0) 
+      -- cycle;
+    \node at (0.5,4.0) {#3};
+  \end{scope}
+}
+
+% dm ----------------------------------------------------
+\newcommand{\dm}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,1.375}{blue}{1};
+    \pin{1.00,0.875}{yellow}{2};
+	  \node at (1.375,2.625) {\tiny{$$[addr]$$}};
+    \pin{1.00,1.875}{yellow}{3};
+    \pin{0.375,-0.25}{blue}{4};
+    \draw [fill=#2!30]
+      (0.0,0.0) 
+      -- (1.0,0.0) 
+      -- (1.0,3.0) 
+      -- (0.0,3.0) 
+      -- cycle;
+    \node at (0.5,1.5) {#3};
+  \end{scope}
+}
+
+% instruction memory ------------------------------------
+\newcommand{\im}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,1.375}{blue}{1};
+    \pin{1.00,0.875}{yellow}{2};
+      \node at (1.375,1.125) {\tiny{i2}};
+    \pin{1.00,1.875}{yellow}{3};
+       \node at (1.375,2.125) {\tiny{i1}};
+    \draw [fill=#2!30]
+      (0.000000,0.000000) 
+      -- (1.000000,0.000000) 
+      -- (1.000000,3.000000) 
+      -- (0.000000,3.000000) 
+      -- cycle;
+    \node at (0.500000,1.500000) {#3};
+  \end{scope}
+}
+% pc register --------------------------------------------
+\newcommand{\pc}[3]{
+  \begin{scope}[shift={(#1)}]
+    \draw[fill=#2!30] 
+      (0,0) 
+      -- (1,0) 
+      -- (1,3) 
+      -- (0,3) 
+      -- cycle;
+    \node at (0.5,1.5) {#3};
+    \pin{-0.25,1.375}{blue}{1}
+    \pin{1.0,1.375}{yellow}{2}
+      \node at (1.5,1.625) {\tiny{PC}};
+  \end{scope}
+}
+\newcommand{\rf}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,1.875}{blue}{1};
+    \pin{-0.25,0.875}{blue}{2};
+    \pin{0.375,-0.25}{blue}{3};
+    \pin{1.00,0.875}{yellow}{4};
+	  \node at (1.5,1.125) {\tiny{$$[Rd]$$}};
+    \pin{1.00,1.875}{yellow}{5};
+	  \node at (1.5,2.125) {\tiny{$$[Rr]$$}};
+    \draw [fill=#2!30]
+      (0.0,0.0) 
+      -- (1.0,0.0) 
+      -- (1.0,3.0) 
+      -- (0.0,3.0) 
+      -- cycle;
+    \node at (0.5,1.5) {#3};
+  \end{scope}
+}
+% special memory ----------------------------------------
+\newcommand{\sm}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,0.375}{blue}{1};
+    \pin{1.0,0.375}{yellow}{2};
+	  \node at (1.5,0.75) {\tiny{pop}};
+    \draw [fill=#2!30]
+      (0.0,0.0) 
+      -- (1.0,0.0) 
+      -- (1.0,1.0) 
+      -- (0.0,1.0) 
+      -- cycle;
+    \node at (0.5,0.5) {#3};
+  \end{scope}
+}
+% i/o memory --------------------------------------------
+\newcommand{\io}[3]{ % {coord}{color}{label}
+  \begin{scope}[shift={(#1)}]
+    \pin{-0.25,0.375}{blue}{1};
+	  \node at (-0.5,0.75) {\tiny{$$[Rr]$$}};
+    \pin{0.375,-0.25}{blue}{2};
+	  \node at (0.625,-0.25) {\tiny{A}};
+    \pin{1.0,0.375}{yellow}{3};
+	  \node at (1.5,0.75) {\tiny{$$[A]$$}};
+    \draw [fill=#2!30]
+      (0.0,0.0) 
+      -- (1.0,0.0) 
+      -- (1.0,1.0) 
+      -- (0.0,1.0) 
+      -- cycle;
+    \node at (0.5,0.5) {#3};
+  \end{scope}
+}

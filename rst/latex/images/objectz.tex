@@ -1,0 +1,15 @@
+
+\documentclass[preview]{standalone}
+\usepackage{oz}
+\pagestyle{empty}
+\begin{document}
+\begin{schema}{io}
+  name: \bf{String} \\
+  in1: \bf{uint16\_t} \\
+  in2: \bf{uint16\_t} \\
+  sel: [0,1] \\
+  out: \bf{uin16\_t}
+\ST
+  out' = sel? in1 : in2
+\end{schema}
+\end{document}

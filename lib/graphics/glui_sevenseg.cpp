@@ -1,6 +1,5 @@
-//#include "glui_internal_control.h"
+// Copyright 2019 Roie R. Black
 #include "GLUI_SevenSeg.h"
-#include "tinyformat.h"
 
 #define NOT !
 #define SEG_WIDTH 80
@@ -16,7 +15,7 @@ GLUI_SevenSeg::GLUI_SevenSeg( GLUI_Node *parent, const GLUI_String &name)
 
 void GLUI_SevenSeg::common_init() 
 {
-  name         = tfm::format("SevenSeg: %p", this);
+  name         = "SevenSeg";
   h            = SEG_HEIGHT;
   w            = SEG_WIDTH;
   alignment    = GLUI_ALIGN_CENTER;

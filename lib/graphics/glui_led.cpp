@@ -1,6 +1,6 @@
+// Copyright 2019 Roie R. Black
 //#include "glui_internal_control.h"
 #include "GLUI_Led.h"
-#include "tinyformat.h"
 #include <cmath>
 
 const double PI = acos(-1.0);
@@ -20,7 +20,7 @@ GLUI_Led::GLUI_Led( GLUI_Node *parent, const GLUI_String &name)
 
 void GLUI_Led::common_init() 
 {
-  name         = tfm::format("Led: %p", this);
+  name         = "led";
   h            = LED_HEIGHT;
   w            = LED_WIDTH;
   alignment    = GLUI_ALIGN_CENTER;
@@ -30,7 +30,7 @@ void GLUI_Led::common_init()
 void    GLUI_Led::draw( int x, int y )
 {
     glui->draw_raised_box( 0, 0, w, h );
-    drawFilledCircle(w / 2, h / 2, w / 2 - 2);
+    drawFilledCircle(w / 2 - 1, h / 2 - 1, w / 2 - 2);
 }
 
 void GLUI_Led::drawFilledCircle(int x, int y, int radius) {

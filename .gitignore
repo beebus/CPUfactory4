@@ -1,5 +1,7 @@
 # Project
-dependencies/
+deps/
+sandbox/
+_venv/
 
 # C/C++
 *.o

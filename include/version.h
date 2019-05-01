@@ -2,4 +2,4 @@
 
 // Copyright 2019 None
 
-#define VERSION "0.0.42"
+#define VERSION "4.0.99"

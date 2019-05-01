@@ -29,7 +29,7 @@ before_install:
   - sudo cp lib/libglui.a /usr/local/lib
   - sudo cp include/GL/glui.h /usr/local/include
   - cd ../..
-  - pip install --user cpp-coveralls
+  - pip install --user -r requirements.txt
 
 script:
   - pwd

@@ -1,0 +1,19 @@
+Fixture {
+  components:
+    ALU alu;
+
+  inputs:
+    uint8_t in2 -> alu.in1;
+    uint8_t in2 - alu.in2;
+
+  outputs:
+    uint8_t res8;
+
+  controls: 
+    ADD = 5;
+    AND = 0;
+
+  tests:
+    t0: 5 -> in1; 5 -> in2 ; alu(ADD); res8 -> 10;
+    t1: 0b11111111 -> in1; 0b10101010 -> in2; alu(AND); res8 -> 0b10101010;
+}

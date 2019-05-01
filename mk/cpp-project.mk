@@ -3,10 +3,10 @@ TARGET	:= $(PROJNAME)$(EXT)
 LIB		:= libavrsim.a
 LIBDIR	:= bin
 
-HDRS	:= $(shell python mk/pyfind.py include .h)
+HDRS	:= $(shell python $(MK)/pyfind.py include .h)
 
 USRCS	:= $(wildcard src/*.cpp)
-LSRCS	:= $(shell python mk/pyfind.py lib .cpp)
+LSRCS	:= $(shell python $(MK)/pyfind.py lib .cpp)
 ALLSRCS := $(USRCS) $(LSRCS)
 
 UOBJS   := $(USRCS:.cpp=.o)

@@ -1,0 +1,69 @@
+PARTS
+	Source 	reset
+	MUX2	mux1
+	PC	pc
+	IM	im
+	Decoder	dec
+	RF	rf
+	MUX2	mux2
+	MUX2	mux3
+	ALU	alu
+	MUX2	mux4
+	MUX4	mux5
+	MUX4	mux6
+	DM	dm
+	STK	stk
+	IO	io
+END
+
+WIRES
+	W1	mux5.OUT -> mux1.IN1 ;
+	W2	reset.OUT -> mux1.IN2 ;
+	W3	mux1.OUT -> pc.IN ;
+	W4	pc.OUT -> im.PC , dec.PC ;
+	W5	im.INS1 -> dec.INS1 ;
+	W6	im.INS2 -> dec.INS2 ;
+	W7	dec.RD -> rf.RD ;
+	W8	dec.RR -> rf.RR ;
+	W9	rf.CRD -> mux2.IN1 ;
+	W10	rf.CRR -> mux3.IN2 , io.IN , mux4.IN2 , mux6.IN1 ;
+	W11	dec.K -> mux2.IN2 , dm.MAR ;
+	W12	mux2.OUT -> alu.IN2 ;
+	W13	dec.PCN -> mux3.IN1 , mux5.IN1 , stk.IN ;
+	W14	mux3.OUT -> alu.IN1 ;
+	W15	dec.AOP -> alu.AOP ;
+	W16	alu.RES8 -> mux5.IN2 ;
+	W17	alu.RES16 -> mux4.IN1 ;
+	W18	dec.A -> io.MAR ;
+	W19	mux4.OUT -> dm.IN ;
+	W20	stk.OUT -> mux5.IN3 ;
+	W21	dm.OUT -> mux6.IN3 ;
+	W22	io.OUT -> mux6.IN2 ;
+	W23	mux6.OUT -> rf.MDR ;
+END
+
+UCODE
+	Fetch
+		mux2.reset
+		pc.0
+		im.0
+		;
+
+	Decode
+		dec.0
+		rf.0 
+		;
+	EOR
+		mux2.1
+		mux3.2
+		alu.0
+		;
+	OUT
+		io.0
+		;
+	IN
+		io.1
+		mux6.2
+		rf.1
+		;
+END
