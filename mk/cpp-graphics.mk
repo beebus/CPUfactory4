@@ -12,5 +12,5 @@ ifeq ($(PLATFORM), Windows)
 endif
 ifeq ($(PLATFORM), Linux)
 	CXXFLAGS += -I/usr/include -Iinclude
-	LFLAGS += -Lbin/Linux -lGL -lGLU -lglut -lglui
+	LFLAGS += -Lbin/Linux -lGL -lGLU -lglui -lglut
 endif

@@ -1,4 +1,4 @@
-CPUfactory (v4.0.111)
+CPUfactory (v4.0.118)
 #####################
 :Course: COC2325 - Computer Architecture and Machine Language
 :School: Austin Community College
@@ -54,6 +54,13 @@ Dependencies
     :alt: BSD 3-Clause License
 
 ..  |quality| image:: https://api.codacy.com/project/badge/Grade/0f16fca7053b450987872cd199c228fe    :target: https://www.codacy.com/app/rblack42/CPUfactory4?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rblack42/CPUfactory4&amp;utm_campaign=Badge_Grade
+
+
+
+
+
+
+
 
 
 

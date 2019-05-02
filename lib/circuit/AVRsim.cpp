@@ -34,9 +34,7 @@ uint16_t AVRsim::tick(uint16_t c) {
     return ++pc;
 }
 
-void AVRsim::fetch(void) {
-    std::cout << "Fetch" << std::endl;
-    uCode * ucode = find_ucode("Fetch");
+void AVRsim::run_ucode(uCode * ucode) {
     if (ucode) {
         for (int i=0; i < ucode->uops.size(); i++) {
             uOp * uops = ucode->uops[i];
@@ -49,32 +47,30 @@ void AVRsim::fetch(void) {
                 << std::endl;
         }
     }
+}
+
+void AVRsim::fetch(void) {
+    std::cout << "Fetch" << std::endl;
+    uCode * ucode = find_ucode("Fetch");
+    run_ucode(ucode);
 }
 
 void AVRsim::decode(void) {
     std::cout << "decode" << std::endl;
     uCode * ucode = find_ucode("Decode");
-    if (ucode) {
-        for (int i=0; i < ucode->uops.size(); i++) {
-            uOp * uops = ucode->uops[i];
-            std::cout 
-                << "\t" 
-                << uops->part->get_name()
-                << "("
-                << uops->ctrl
-                << ")" 
-                << std::endl;
-        }
-    }
-
+    run_ucode(ucode);    
 }
 
 void AVRsim::execute(void) {
     std::cout << "execute" << std::endl;
+    uCode * ucode = find_ucode("Execute");
+    run_ucode(ucode);    
 }
 
 void AVRsim::store(void) {
     std::cout << "store" << std::endl;
+    uCode * ucode = find_ucode("Store");
+    run_ucode(ucode);    
 }
 
 Component * AVRsim::find_part(std::string part) {

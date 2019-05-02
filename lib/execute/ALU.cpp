@@ -18,7 +18,6 @@ ALU::ALU(std::string n):Component(n) {
 void ALU::tick(int ctrl) {
     Pin *in1pin = this->get_in_pin("IN1");
     Pin *in2pin = this->get_in_pin("IN2");
-    Pin *aoppin = this->get_in_pin("AOP");
     Pin *out1pin = this->get_out_pin("RES8");
     Pin *out2pin = this->get_out_pin("RES16");
     uint16_t ival1, ival2, aop, oval;
@@ -26,7 +25,7 @@ void ALU::tick(int ctrl) {
     try {
         ival1 = in1pin->get_val();
         ival2 = in2pin->get_val();
-        aop = aoppin->get_val();
+        aop = ctrl;
     }
     catch (std::exception & e) {
         std::cout
@@ -55,6 +54,7 @@ void ALU::tick(int ctrl) {
             break;
     }
     try {
+        std::cout << "ALU: " << oval << std::endl;
         out1pin->set_val(oval);
     }
     catch(std::exception e) {

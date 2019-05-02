@@ -30,6 +30,7 @@ class AVRsim {
     int nucodes;
     Component * find_part(std::string name);
     uCode * find_ucode(std::string name);
+    void run_ucode(uCode * ucode);
     Pin * find_pin(Component * part, std::string name);
     void attach_driven(Wire * w, std::string id);
     void attach_drives(Wire * w, std::string id);
