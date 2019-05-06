@@ -28,6 +28,7 @@ char app_name[50];
 #define RS_ID           306
 #define K_ID            307
 #define A_ID            308
+#define INST_ID         309
 
 // "live" variables accessed by graphics routines
 int   last_x, last_y;
@@ -36,12 +37,15 @@ int  _pc = 0;
 int _counter = 0;
 int _ins1 = 0;
 int _ins2 = 0;
+std::string _inst;
 int _aluop = 0;
 int _pcn = 0;
 int _rd = 0;
 int _rs = 0;
 int _k = 0;
 int _a = 0;
+int stage = 0;
+GLUI_Led * stages[4];
 
 
 // This is the primary graphics object
@@ -52,6 +56,8 @@ AVRsim * sim;
 void control_cb(int control) {
     if (control == PC_INCREMENT) {
         int stage = _pc % 4;
+        for (int i = 0; i < 4; i++) stages[i]->set(false);
+        stages[stage]->set(true);
         switch (stage) {
             case 0: sim->fetch(); break;
             case 1: sim->decode(); break;
@@ -63,6 +69,7 @@ void control_cb(int control) {
         _ins1 = sim->get_signal_by_name("ins1");
         _ins2 = sim->get_signal_by_name("ins2");
         // decode signals
+        _inst = "rjmp r5";
         _pcn = sim->get_signal_by_name("pcn");
         _rd = sim->get_signal_by_name("rd");
         _rs = sim->get_signal_by_name("rs");
@@ -158,6 +165,9 @@ int main(int argc, char* argv[]) {
          &_ins2, INS2_ID, control_cb);
 
     GLUI_Panel * decode_panel = new GLUI_Panel(machine, "Decode");
+    new GLUI_EditText(decode_panel, "Inst",
+        GLUI_EDITTEXT_TEXT,
+        &_inst, INST_ID, control_cb);
     new GLUI_EditText(decode_panel, "ALUop",
          GLUI_EDITTEXT_INT,
          &_aluop, ALUOP_ID, control_cb);
@@ -188,14 +198,15 @@ int main(int argc, char* argv[]) {
     new GLUI_Column(segdisp,false);
     new GLUI_SevenSeg(segdisp, "7Seg2");
 
+    // create stage led display
     GLUI_Panel * leddisp = new GLUI_Panel(machine, "Leds");
-    new GLUI_Led(leddisp, "Led1");
+    stages[0] = new GLUI_Led(leddisp, "Led1");
     new GLUI_Column(leddisp,false);
-    new GLUI_Led(leddisp, "Led2");
+    stages[1] = new GLUI_Led(leddisp, "Led2");
     new GLUI_Column(leddisp,false);
-    new GLUI_Led(leddisp, "Led3");
+    stages[2] = new GLUI_Led(leddisp, "Led3");
     new GLUI_Column(leddisp,false);
-    new GLUI_Led(leddisp, "Led4");
+   stages[3] =  new GLUI_Led(leddisp, "Led4");
 
     glui->set_main_gfx_window(main_window);
     GLUI_Master.set_glutIdleFunc(myIdleFunction);

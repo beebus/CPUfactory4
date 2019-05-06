@@ -7,30 +7,30 @@ const double PI = acos(-1.0);
 const double ANGLE_STEP      = PI / 180.0;
 
 #define NOT !
-#define LED_WIDTH 20
-#define LED_HEIGHT 20
+#define LED_SIZE 20
+#define MARGIN 2
 
-GLUI_Led::GLUI_Led( GLUI_Node *parent, const GLUI_String &name)
-{
-  common_init();
-  set_name( name );
+GLUI_Led::GLUI_Led(GLUI_Node *parent, const GLUI_String &name) {
+    common_init();
+    set_name( name );
+    led_on = false;
 
-  parent->add_control( this );
+    parent->add_control( this );
 }
 
-void GLUI_Led::common_init() 
-{
-  name         = "led";
-  h            = LED_HEIGHT;
-  w            = LED_WIDTH;
-  alignment    = GLUI_ALIGN_CENTER;
-  can_activate = true;
+void GLUI_Led::common_init() {
+    name         = "led";
+    h            = LED_SIZE;
+    w            = LED_SIZE;
+    alignment    = GLUI_ALIGN_CENTER;
+    can_activate = true;
 }
 
-void    GLUI_Led::draw( int x, int y )
-{
+void GLUI_Led::draw(int x, int y) {
+    int center = w / 2;
     glui->draw_raised_box( 0, 0, w, h );
-    drawFilledCircle(w / 2 - 1, h / 2 - 1, w / 2 - 2);
+    if (led_on) drawFilledCircle(center, center, center -  MARGIN);
+    else drawCircle(center, center, center - MARGIN);
 }
 
 void GLUI_Led::drawFilledCircle(int x, int y, int radius) {
@@ -50,5 +50,20 @@ void GLUI_Led::drawFilledCircle(int x, int y, int radius) {
          glVertex2i(X1, Y1);
      }
      glEnd();
+}
+void GLUI_Led::drawCircle(int x, int y, int radius) {
+     double angle;
+     int X, Y;
+     glBegin(GL_LINE_STRIP);
+     for (angle = 0; angle < 2.0 * PI + ANGLE_STEP; angle += ANGLE_STEP) {
+         X = x + static_cast<int>(static_cast<double>(radius) * cos(angle));
+         Y = y + static_cast<int>(static_cast<double>(radius) * sin(angle));
+         glVertex2i(X, Y);
+     }
+     glEnd();
+}
+
+void GLUI_Led::set(bool on) {
+    led_on = on;
 }
 
