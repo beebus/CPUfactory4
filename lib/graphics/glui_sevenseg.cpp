@@ -34,23 +34,23 @@ int hex_digit[16] = {
 
 int pos[6][2];
 
-GLUI_SevenSeg::GLUI_SevenSeg( GLUI_Node *parent, const GLUI_String &name) {
+GLUI_SevenSeg::GLUI_SevenSeg(GLUI_Node *parent, const GLUI_String &name) {
     common_init();
-    set_name( name );
+    set_name(name);
     bits = 0b11111111;
 
-    parent->add_control( this );
+    parent->add_control(this);
 }
 
 void GLUI_SevenSeg::common_init() {
-  name         = "SevenSeg";
-  h        = SEG_HEIGHT;
-  w            = SEG_WIDTH;
-  alignment    = GLUI_ALIGN_CENTER;
-  can_activate = true;
+  name          = "SevenSeg";
+  h             = SEG_HEIGHT;
+  w             = SEG_WIDTH;
+  alignment     = GLUI_ALIGN_CENTER;
+  can_activate  = false;
 }
 
-void GLUI_SevenSeg::draw(int xp, int yp) {
+void GLUI_SevenSeg::draw(int x, int y) {
     glui->draw_raised_box(0, 0, w, h);
     bool ca, cb, cc, cd, ce, cf, cg, cdot;
     ca = (bits & 0b00000001) > 0;
@@ -70,7 +70,6 @@ void GLUI_SevenSeg::draw(int xp, int yp) {
     drawSegF(cf);
     drawSegG(cg);
     drawSegDot(cdot);
-
 }
 
 // mutators
@@ -108,7 +107,7 @@ void GLUI_SevenSeg::drawSeg(void) {
     int ys5 = pos[4][1];
     int xs6 = pos[5][0];
     int ys6 = pos[5][1];
-    glColor3f( 0.0, 0.0, 0.0 );
+    glColor3f(0.0, 0.0, 0.0);
     glBegin(GL_LINE_STRIP);
     glVertex2i(xs1, ys1);
     glVertex2i(xs2, ys2);
@@ -133,7 +132,7 @@ void GLUI_SevenSeg::drawFilledSeg(void) {
     int ys5 = pos[4][1];
     int xs6 = pos[5][0];
     int ys6 = pos[5][1];
-    glColor3f( 1.0, 0.0, 0.0 );
+    glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_POLYGON);
     glVertex2i(xs1, ys1);
     glVertex2i(xs2, ys2);
@@ -171,9 +170,10 @@ void GLUI_SevenSeg::drawHbar(int hoff, int voff, bool on) {
     pos[4][1] = y5 + voff;
     pos[5][0] = x6 + hoff;
     pos[5][1] = y6 + voff;
-    if (on) drawFilledSeg();
-    else drawSeg();
-
+    if (on)
+        drawFilledSeg();
+    else
+        drawSeg();
 }
 
 void GLUI_SevenSeg::drawVbar(int hoff, int voff, bool on) {
@@ -202,10 +202,10 @@ void GLUI_SevenSeg::drawVbar(int hoff, int voff, bool on) {
     pos[4][1] = y5 + voff;
     pos[5][0] = x6 + hoff;
     pos[5][1] = y6 + voff;
-    if (on) drawFilledSeg();
-    else drawSeg();
-
-
+    if (on)
+        drawFilledSeg();
+    else
+        drawSeg();
 }
 
 void GLUI_SevenSeg::drawSegA(bool on) {
@@ -229,9 +229,8 @@ void GLUI_SevenSeg::drawSegE(bool on) {
     drawVbar(MARGIN + BAR / 2, h / 2, on);
 }
 
-void GLUI_SevenSeg::drawSegF(bool on) {
-    drawVbar(MARGIN + BAR / 2, MARGIN + BAR / 2, on);
-}
+void GLUI_SevenSeg::drawSegF(bool on) { drawVbar(MARGIN + BAR / 2, MARGIN + BAR
+        / 2, on); }
 
 void GLUI_SevenSeg::drawSegG(bool on) {
     drawHbar(MARGIN + BAR / 2, h / 2, on);
@@ -241,13 +240,15 @@ void GLUI_SevenSeg::drawSegG(bool on) {
 void GLUI_SevenSeg::drawSegDot(bool on) {
     int xd =  w - BAR / 2 - MARGIN;
     int yd = h - BAR / 2 - MARGIN;
-    if (on) drawFilledCircle(xd, yd, BAR / 2);
-    else drawCircle(xd, yd, BAR / 2);
+    if (on)
+        drawFilledCircle(xd, yd, BAR / 2);
+    else
+        drawCircle(xd, yd, BAR / 2);
 }
 void GLUI_SevenSeg::drawFilledCircle(int x, int y, int radius) {
      double angle;
      int X0, Y0, X1, Y1;
-     glColor3f( 1.0, 0.0, 0.0 );
+     glColor3f(1.0, 0.0, 0.0);
      glBegin(GL_TRIANGLES);
      X1 = x + radius;
      Y1 = y;
@@ -262,6 +263,7 @@ void GLUI_SevenSeg::drawFilledCircle(int x, int y, int radius) {
      }
      glEnd();
 }
+
 void GLUI_SevenSeg::drawCircle(int x, int y, int radius) {
      double angle;
      int X, Y;

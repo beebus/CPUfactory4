@@ -4,7 +4,7 @@
 
 class GLUI_SevenSeg : public GLUI_Control {
  public:
-    void draw(int x, int y);
+    void draw(int x, int y) override;
 
     GLUI_SevenSeg(GLUI_Node *parent, const GLUI_String &name);
     GLUI_SevenSeg() { common_init(); }
@@ -31,9 +31,7 @@ class GLUI_SevenSeg : public GLUI_Control {
     void drawSegF(bool on);
     void drawSegG(bool on);
     void drawSegDot(bool on);
-    void drawCircle(int x, int y, int r);    
-    void drawFilledCircle(int x, int y, int r);    
-    int w;
-    int h;
+    void drawCircle(int x, int y, int r);
+    void drawFilledCircle(int x, int y, int r);
 };
 

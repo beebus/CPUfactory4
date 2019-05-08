@@ -19,6 +19,7 @@ class AVRsim {
     void decode(void);
     void execute(void);
     void store(void);
+
  private:
     bool debug;
     uint16_t pc;

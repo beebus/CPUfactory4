@@ -56,9 +56,7 @@ void IM::tick(int ctrl) {
     Pin *ins2pin = this->get_out_pin("INS2");
 
     uint16_t pc = pcpin->get_val();
-    //std::cout << "Tick pc: " << pc << std::endl;
     uint16_t ins1 = mem[pc];
-    //std::cout << "Tick ins1: " << ins1 << std::endl;
     uint16_t ins2 = mem[pc+1];
 
     pc = get_pin_val(pcpin);

@@ -38,12 +38,12 @@ void AVRsim::run_ucode(uCode * ucode) {
     if (ucode) {
         for (int i=0; i < ucode->uops.size(); i++) {
             uOp * uops = ucode->uops[i];
-            std::cout 
-                << "\t" 
+            std::cout
+                << "\t"
                 << uops->part->get_name()
                 << "("
                 << uops->ctrl
-                << ")" 
+                << ")"
                 << std::endl;
         }
     }
@@ -58,19 +58,19 @@ void AVRsim::fetch(void) {
 void AVRsim::decode(void) {
     std::cout << "decode" << std::endl;
     uCode * ucode = find_ucode("Decode");
-    run_ucode(ucode);    
+    run_ucode(ucode);
 }
 
 void AVRsim::execute(void) {
     std::cout << "execute" << std::endl;
     uCode * ucode = find_ucode("Execute");
-    run_ucode(ucode);    
+    run_ucode(ucode);
 }
 
 void AVRsim::store(void) {
     std::cout << "store" << std::endl;
     uCode * ucode = find_ucode("Store");
-    run_ucode(ucode);    
+    run_ucode(ucode);
 }
 
 Component * AVRsim::find_part(std::string part) {
@@ -131,23 +131,23 @@ void AVRsim::builder(std::string fname) {
     int ctrl;
 
     std::cout <<
-        "Building machine from: " 
-        << fname 
+        "Building machine from: "
+        << fname
         << std::endl;
 
     fin.open(fname);
     if (!fin) {
-        std::cout 
-            << "Cannot open machine def file: " 
-            << fname 
+        std::cout
+            << "Cannot open machine def file: "
+            << fname
             << std::endl;
         exit(1);
     }
-    std::cout 
+    std::cout
         << "Building machine"
         << std::endl;
     while (fin >> token) {
-        std::cout 
+        std::cout
             << token
             << std::endl;
         if (token == "PARTS") {
@@ -156,7 +156,13 @@ void AVRsim::builder(std::string fname) {
                 if (token == "END") break;
                 fin >> name;
                 nparts++;
-                std::cout << "Building " << token << "(" << name << ")" << std::endl;
+                std::cout
+                    << "Building "
+                    << token
+                    << "("
+                    << name
+                    << ")"
+                    << std::endl;
                 if (token == "Source") {
                     Source * src_part = new Source(name);
                     parts.push_back(reinterpret_cast<Component *>(src_part));
@@ -197,7 +203,7 @@ void AVRsim::builder(std::string fname) {
 
                 std::cout << "Part: " << token << std::endl;
             }
-        } else if (token == "WIRES") { 
+        } else if (token == "WIRES") {
                         if (debug)
                 std::cout
                     << "Generating wires"
@@ -235,7 +241,7 @@ void AVRsim::builder(std::string fname) {
         } else if (token == "UCODE") {
             while (fin >> token) {
                 if (token == "END") break;
-                if (debug) 
+                if (debug)
                     std::cout
                         << "\tadding instruction: "
                         << token
@@ -252,11 +258,12 @@ void AVRsim::builder(std::string fname) {
                             << std::endl;
                     }
                     int pos = token.find(".");
-                    std::string part = token.substr(0,pos);
+                    std::string part = token.substr(0, pos);
                     std::string sctrl = token.substr(pos+1, token.size());
                     if (sctrl != "reset")
                         ctrl = std::stoi(sctrl);
-                    else ctrl = 0;
+                    else
+                        ctrl = 0;
                     if (debug)
                         std::cout
                             << "part: "
@@ -302,7 +309,8 @@ uint16_t AVRsim::get_signal_by_name(std::string n) {
         return 0x009f;
     else if (n == "ins2")
         return 0x00af;
-    else return 0;
+    else
+        return 0;
 }
 
 uCode * AVRsim::find_ucode(std::string name) {

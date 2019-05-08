@@ -14,7 +14,6 @@
 #include <GL/glut.h>
 #endif
 
-std::string version = "AVRsim (";
 char app_name[50];
 
 #define PC_INCREMENT    200
@@ -82,12 +81,12 @@ void control_cb(int control) {
 
 // user keyboard handler
 void myGlutKeyboard(unsigned char Key, int x, int y) {
-    switch(Key) {
+    switch (Key) {
         case 27:
             case 'q':
             exit(0);
             break;
-    };
+    }
     glutPostRedisplay();
 }
 
@@ -110,19 +109,20 @@ void myGlutMouse(int button, int button_state, int x, int y ) {
 
 // draw the current screen - most work is behind the scenes
 void myGlutDisplay() {
-    glClearColor( .9f, .9f, .9f, 1.0f );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClearColor(0.9f, .9f, .9f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glutSwapBuffers();
 }
 
 
 int main(int argc, char* argv[]) {
+    std::string version = "AVRsim (";
     version +=  VERSION;
     version +=  ")";
-    std::strcpy(app_name, version.c_str()); 
-    
+    std::strcpy(app_name, version.c_str());
+
     glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     // create the top-level window and position it on the screen
     glutInitWindowPosition(50, 50);
@@ -133,23 +133,23 @@ int main(int argc, char* argv[]) {
 
     // register the user functions
     glutDisplayFunc(myGlutDisplay);
-    glutKeyboardFunc( myGlutKeyboard );
-    glutMouseFunc( myGlutMouse );
+    glutKeyboardFunc(myGlutKeyboard);
+    glutMouseFunc(myGlutMouse);
 
     // create GUI panel subwindow in the main window
     glui = GLUI_Master.create_glui_subwindow(
         main_window, GLUI_SUBWINDOW_TOP);
 
     // add controls to subwindow
-    new GLUI_StaticText( glui, "Controls" );
-    new GLUI_SevenSeg( glui, "SevenSeg" );
-    new GLUI_Separator( glui );
+    new GLUI_StaticText(glui, "Controls");
+    new GLUI_SevenSeg(glui, "SevenSeg");
+    new GLUI_Separator(glui);
     GLUI_EditText *counter_edittext =
         new GLUI_EditText(glui, "Count:", &_counter);
 
-    new GLUI_Button( glui, "Step", PC_INCREMENT, control_cb);
-    new GLUI_Button( glui, "Reset", PC_RESET, control_cb);
-    new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
+    new GLUI_Button(glui, "Step", PC_INCREMENT, control_cb);
+    new GLUI_Button(glui, "Reset", PC_RESET, control_cb);
+    new GLUI_Button(glui, "Quit", 0, (GLUI_Update_CB)exit );
 
     // set up machine display area
     GLUI_Panel * machine = new GLUI_Panel(glui, "Machine");
@@ -187,26 +187,26 @@ int main(int argc, char* argv[]) {
          GLUI_EDITTEXT_INT,
          &_a, RD_ID, control_cb);
 
-    new GLUI_Column(machine,true);
+    new GLUI_Column(machine, true);
     GLUI_Panel * execute_panel = new GLUI_Panel(machine, "Execute");
     GLUI_Panel * store_panel = new GLUI_Panel(machine, "Store");
 
-    new GLUI_Column(machine,true);
-    
+    new GLUI_Column(machine, true);
+
     GLUI_Panel * segdisp = new GLUI_Panel(machine, "SevenSeg");
     new GLUI_SevenSeg(segdisp, "7Seg1");
-    new GLUI_Column(segdisp,false);
+    new GLUI_Column(segdisp, false);
     new GLUI_SevenSeg(segdisp, "7Seg2");
 
     // create stage led display
     GLUI_Panel * leddisp = new GLUI_Panel(machine, "Leds");
     stages[0] = new GLUI_Led(leddisp, "Led1");
-    new GLUI_Column(leddisp,false);
+    new GLUI_Column(leddisp, false);
     stages[1] = new GLUI_Led(leddisp, "Led2");
-    new GLUI_Column(leddisp,false);
+    new GLUI_Column(leddisp, false);
     stages[2] = new GLUI_Led(leddisp, "Led3");
-    new GLUI_Column(leddisp,false);
-   stages[3] =  new GLUI_Led(leddisp, "Led4");
+    new GLUI_Column(leddisp, false);
+    stages[3] =  new GLUI_Led(leddisp, "Led4");
 
     glui->set_main_gfx_window(main_window);
     GLUI_Master.set_glutIdleFunc(myIdleFunction);
